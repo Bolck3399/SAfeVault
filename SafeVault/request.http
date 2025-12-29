@@ -1,0 +1,73 @@
+### ============================
+### 1. LOGIN COMO ADMIN
+### ============================
+POST http://localhost:5026/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin123!"
+}
+
+###
+
+### ============================
+### 2. LOGIN COMO USER
+### ============================
+POST http://localhost:5026/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "User123!"
+}
+
+###
+
+### ============================
+### 3. ADMIN: VER TODOS LOS ITEMS
+### Reemplaza {{token_admin}} con el token obtenido en la prueba 1
+### ============================
+GET http://localhost:5026/api/vault/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJhZG1pbiIsImV4cCI6MTc2NzA0NDY1MX0.CmrllIvZHPdkzqah25BO_o7TgTO-R75bQYEogcvDgGo
+
+###
+
+### ============================
+### 4. USER: INTENTAR VER TODOS LOS ITEMS (DEBE FALLAR)
+### ============================
+GET http://localhost:5026/api/vault/all
+Authorization: Bearer {{token_user}}
+
+###
+
+### ============================
+### 5. USER: VER SOLO SUS ITEMS
+### ============================
+GET http://localhost:5026/api/vault/mine
+Authorization: Bearer {{token_user}}
+
+###
+
+### ============================
+### 6. ADMIN: VER SUS ITEMS (admin también puede)
+### ============================
+GET http://localhost:5026/api/vault/mine
+Authorization: Bearer {{token_admin}}
+
+###
+
+### ============================
+### 7. PRUEBA SIN TOKEN (DEBE DAR 401)
+### ============================
+GET http://localhost:5026/api/vault/mine
+
+###
+
+### ============================
+### 8. TOKEN INVÁLIDO (DEBE DAR 401)
+### ============================
+GET http://localhost:5026/api/vault/mine
+Authorization: Bearer INVALID_TOKEN_123
+
+###
