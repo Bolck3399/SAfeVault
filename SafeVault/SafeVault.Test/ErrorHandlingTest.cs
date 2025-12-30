@@ -1,5 +1,5 @@
 using System.Net;
-using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 
 public class ErrorHandlingTests : ApiTestBase
@@ -9,9 +9,9 @@ public class ErrorHandlingTests : ApiTestBase
     {
         var response = await _client.GetAsync("/api/this-route-does-not-exist");
 
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
         var body = await response.Content.ReadAsStringAsync();
-        body.Should().NotContain("StackTrace", "stack traces should not be exposed in production");
+        Assert.DoesNotContain("StackTrace", body);
     }
 }
